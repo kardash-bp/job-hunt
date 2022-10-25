@@ -11,7 +11,7 @@ const Landing = () => {
       <div className='container page'>
         <div className='info'>
           <h1>
-            job <span>hunt</span> app
+            job <span>hunt</span>
           </h1>
           <p>
             Subway tile meditation vegan, actually bicycle rights migas tote bag

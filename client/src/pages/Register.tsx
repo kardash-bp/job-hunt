@@ -2,6 +2,8 @@ import { useState, useEffect, ChangeEvent, FormEvent } from 'react'
 import { Alert, FormInput, Logo } from '../components'
 
 import styled from 'styled-components'
+import { UseAppContext } from '../context/appContext'
+import { displayAlert, Types } from '../context/actions'
 
 const Wrapper = styled.section`
   display: grid;
@@ -46,22 +48,32 @@ const initialState = {
 
 const Register = () => {
   const [values, setValues] = useState(initialState)
+  // global state
+  const {
+    state: { isLoading, showAlert },
+    dispatch,
+  } = UseAppContext()
   const toggleMember = () => {
     setValues({ ...values, isMember: !values.isMember })
   }
-  const handleChange = (e: ChangeEvent) => {
-    console.log(e)
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setValues({ ...values, [e.target.name]: e.target.value })
   }
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault()
-    console.log(e.target)
+    const { name, email, password, isMember } = values
+    if (!email || !password || (!isMember && !name)) {
+      // dispatch({ type: Types.ShowAlert })
+      displayAlert(dispatch)
+      return
+    }
   }
   return (
     <Wrapper className='full-page'>
       <form className='form' onSubmit={handleSubmit}>
         <Logo />
         <h3>{values.isMember ? 'Login' : 'Register'}</h3>
-        {values.showAlert && <Alert />}
+        {showAlert && <Alert />}
         {!values.isMember && (
           <FormInput
             type='text'

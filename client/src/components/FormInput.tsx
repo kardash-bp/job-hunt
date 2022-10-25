@@ -4,7 +4,7 @@ interface FormInputProps {
   value: string
   type: string
   labelText: string
-  handleChange: (e: ChangeEvent) => void
+  handleChange: (e: ChangeEvent<HTMLInputElement>) => void
 }
 const FormInput = ({
   name,
