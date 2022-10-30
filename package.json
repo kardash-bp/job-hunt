@@ -1,0 +1,27 @@
+{
+  "name": "job-hunt",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "server": "cd server && npm start --ignore client",
+    "client": "npm start --prefix client",
+    "start": "concurrently -k \"npm run server\" \"npm run client\"",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kardash-bp/job-hunt.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kardash-bp/job-hunt/issues"
+  },
+  "homepage": "https://github.com/kardash-bp/job-hunt#readme",
+  "devDependencies": {
+    "concurrently": "^7.5.0"
+  },
+  "dependencies": {}
+}

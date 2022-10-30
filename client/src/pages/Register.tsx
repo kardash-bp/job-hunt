@@ -3,7 +3,15 @@ import { Alert, FormInput, Logo } from '../components'
 
 import styled from 'styled-components'
 import { UseAppContext } from '../context/appContext'
-import { displayAlert, Types } from '../context/actions'
+import {
+  displayAlert,
+  Types,
+  registerUser,
+  IUser,
+  loginUser,
+} from '../context/actions'
+import { useNavigate } from 'react-router-dom'
+import { getFromLocalStorage } from '../utils/localStorage'
 
 const Wrapper = styled.section`
   display: grid;
@@ -47,10 +55,11 @@ const initialState = {
 }
 
 const Register = () => {
+  const navigate = useNavigate()
   const [values, setValues] = useState(initialState)
   // global state
   const {
-    state: { isLoading, showAlert },
+    state: { user, isLoading, showAlert, alertType },
     dispatch,
   } = UseAppContext()
   const toggleMember = () => {
@@ -67,7 +76,20 @@ const Register = () => {
       displayAlert(dispatch)
       return
     }
+    if (isMember) {
+      loginUser({ email, password }, dispatch)
+    } else {
+      registerUser({ name, email, password }, dispatch)
+    }
   }
+  console.log(showAlert, alertType)
+  useEffect(() => {
+    if (showAlert && alertType === 'success') {
+      setTimeout(() => {
+        navigate('/')
+      }, 2500)
+    }
+  }, [user, navigate])
   return (
     <Wrapper className='full-page'>
       <form className='form' onSubmit={handleSubmit}>
@@ -97,7 +119,7 @@ const Register = () => {
           handleChange={handleChange}
           labelText='password'
         />
-        <button type='submit' className='btn btn-block'>
+        <button type='submit' className='btn btn-block' disabled={isLoading}>
           submit{' '}
         </button>
         <p>
